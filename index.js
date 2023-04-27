@@ -12,6 +12,37 @@ app.get('/', (req, res) => {
     res.send("Olá mundo");
 });
 
+app.get('/payment', async (req, res) => {
+
+    const id = Date.now().toString();
+    const emailPayer = 'qualqueremail@email.com';
+
+    const data = {
+        items: [
+            item = {
+                id: id,
+                title: 'qualquer descricao',
+                quantity: 1,
+                currency_id: 'BRL',
+                unit_price: parseFloat(150)
+            }
+        ],
+        payer: {
+            email: emailPayer,
+        },
+        external_reference: id,
+    }
+
+    try {
+        const payment = await MercadoPago.preferences.create(data);
+        console.log(payment);
+        return res.redirect(payment.body.init_point);
+    } catch (error) {
+        return res.send(error.message);
+    }
+
+});
+
 app.listen(3000, (req, res) => {
     console.log("Rodando");
 });
