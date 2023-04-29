@@ -46,6 +46,21 @@ app.get('/payment', async (req, res) => {
 
 app.post('/notification', (req, res) => {
     console.log(req.query);
+
+    setTimeout(() => {
+        const filter = {
+            'order.id': req.query.id
+        };
+
+        MercadoPago.payment.search({
+            qs: filter
+        }).then(data => {
+            console.log(data);
+        }).catch(err => {
+            console.log(err);
+        });
+
+    }, 20000);
     res.send('OK');
 })
 
