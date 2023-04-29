@@ -36,12 +36,18 @@ app.get('/payment', async (req, res) => {
     try {
         const payment = await MercadoPago.preferences.create(data);
         console.log(payment);
+        //Banco.SalvarPagamento({ id: id, pagador: emailPayer });
         return res.redirect(payment.body.init_point);
     } catch (error) {
         return res.send(error.message);
     }
 
 });
+
+app.post('/notification', (req, res) => {
+    console.log(req.query);
+    res.send('OK');
+})
 
 app.listen(3000, (req, res) => {
     console.log("Rodando");
